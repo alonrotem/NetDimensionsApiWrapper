@@ -1,6 +1,6 @@
 # NetDimensions API Wrapper
-This is an initial implementation of a .NET wrapper for <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions's Talent Suite</a> main API functions.
-To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetDimensions Wiki</a> (requires an account).
+This is an initial implementation of a .NET wrapper for <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions's Talent Suite</amain API functions.
+To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetDimensions Wiki</a(requires an account).
 
 ## TOC
 In this Readme:
@@ -14,9 +14,9 @@ In this Readme:
 ## About the wrapper
 Working with the wrapper is straightforward, as it sends/returns objects of the types represented in the related C# classes. However, it unifies work against different underlying API methods, which require different formats (some JSON, some XML of different schemes), different authentication modes (some with a user and password, some with a system key) etc.
 
-It was built and tested with <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions Talent Suite</a> version 10.3.0.693 STANDARD.
+It was built and tested with <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions Talent Suite</aversion 10.3.0.693 STANDARD.
 
-[[^ Back to top](#netdimensions-api-wrapper)]
+[[^ Back to TOC](#toc)]
 
 ## Wrapper supported methods ##
 The following methods are available:
@@ -57,7 +57,7 @@ Given one or more user IDs and an organization code, this method assigns users t
 - **GetUsersInOrganization** (single)   
 Given an organization code and optional user status (e.g. all the "active" users), it returns the IDs of the users in that organization.
 
-[[^ Back to top](#netdimensions-api-wrapper)]
+[[^ Back to TOC](#toc)]
 
 ## User fields
 Some of the fields are required when creating a new user, but mind you that not all the fields are returned by the API’s GetUser method (and not much can be done about this..).
@@ -107,4 +107,4 @@ UserAttr6  |   |  Y
 UserAttr7  |   |  Y  
 UserAttr8  |   |  Y  
 
-[[^ Back to top](#netdimensions-api-wrapper)]
+[[^ Back to TOC](#toc)]
