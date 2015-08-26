@@ -13,7 +13,8 @@ The following methods are available:
 ### User methods 
 
 - **CreateUsers** (single or batch multiple)  
-You can supply this method with 1 or more user details (each can contain details of its assigned organization).  
+You can supply this method with 1 or more user details (each can contain details of its assigned organization).   
+Note that some user's fields are mandatory for creating new users. Those are listed in the table below, [User fields](#user-fields). 
 This function will:  
   - Create the users  
   - Create their assigned organizations, if those don’t exist  
@@ -24,7 +25,8 @@ This function will:
 This function receives 1 or more user IDs, and will delete all of them.
 
 - **GetUser** (single)   
-This function receives a user’s ID or an email address, and returns the user’s details (if found), including all its attributes and their assigned organization.
+This function receives a user’s ID or an email address, and returns the user’s details (if found), including all its attributes and their assigned organization.   
+Note that not all the user's fields are returned by the **GetUser** function. The ones which are returned are listed in the table below, [User fields](#user-fields). 
 
 ### Organization methods 
  - **CreateOrganization** (single)   
