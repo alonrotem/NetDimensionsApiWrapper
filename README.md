@@ -7,6 +7,8 @@ Working with the wrapper is straightforward, as it sends/returns objects of the 
 
 It was built and tested with <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions Talent Suite</a> version 10.3.0.693 STANDARD.
 
+[[^ Back to top](#netdimensions-api-wrapper)]
+
 ## Wrapper supported methods ##
 The following methods are available:
 
@@ -45,6 +47,8 @@ Given one or more user IDs and an organization code, this method assigns users t
 
 - **GetUsersInOrganization** (single)   
 Given an organization code and optional user status (e.g. all the "active" users), it returns the IDs of the users in that organization.
+
+[[^ Back to top](#netdimensions-api-wrapper)]
 
 ## User fields
 Some of the fields are required when creating a new user, but mind you that not all the fields are returned by the API’s GetUser method (and not much can be done about this..).
@@ -93,3 +97,5 @@ UserAttr5  |   |  Y
 UserAttr6  |   |  Y  
 UserAttr7  |   |  Y  
 UserAttr8  |   |  Y  
+
+[[^ Back to top](#netdimensions-api-wrapper)]
