@@ -2,8 +2,8 @@
 This is an initial implementation of a .NET wrapper for <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions's Talent Suite</a> main API functions.
 To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetDimensions Wiki</a> (requires an account).
 
-## About the wraper
-Working with the wrapper is straightforward, as it sends/returns objects of the types represented in the related C# classes. However, it unifies work against different underlying API methods, which require different formats (some JSON, some XML of different formats), different authentication modes (some with a user and password, some with a system key) etc.
+## About the wrapper
+Working with the wrapper is straightforward, as it sends/returns objects of the types represented in the related C# classes. However, it unifies work against different underlying API methods, which require different formats (some JSON, some XML of different schemes), different authentication modes (some with a user and password, some with a system key) etc.
 
 It was built and tested with <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions Talent Suite</a> version 10.3.0.693 STANDARD.
 
