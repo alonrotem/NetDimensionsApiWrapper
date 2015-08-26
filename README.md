@@ -12,7 +12,7 @@ The following methods are available:
 
 ### User methods 
 
-- **CreateUsers** (single or batch multiple)
+- **CreateUsers** (single or batch multiple)  
 You can supply this method with 1 or more user details (each can contain details of its assigned organization).  
 This function will:  
   - Create the users  
@@ -20,7 +20,7 @@ This function will:
   - Assign each user to their respective organization.
 
  
-- **DeleteUsers** (single or batch multiple) 
+- **DeleteUsers** (single or batch multiple)  
 This function receives 1 or more user IDs, and will delete all of them.
 
 - **GetUser** (single)   
