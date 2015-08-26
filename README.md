@@ -17,7 +17,7 @@ You can supply this method with 1 or more user details (each can contain details
 This function will:  
   - Create the users  
   - Create their assigned organizations, if those don’t exist  
-  - Assign the users to their respective organization.
+  - Assign each user to their respective organization.
 
  
 - **DeleteUsers** (single or batch multiple) 
