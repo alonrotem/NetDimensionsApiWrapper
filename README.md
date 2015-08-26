@@ -1,6 +1,6 @@
 # NetDimensions API Wrapper
 This is an initial implementation of a .NET wrapper for <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions's Talent Suite</amain API functions.
-To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetDimensions Wiki</a(requires an account).
+To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetDimensions Wiki</a> (requires an account).
 
 ## TOC
 In this Readme:
