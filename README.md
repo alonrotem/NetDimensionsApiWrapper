@@ -24,7 +24,7 @@ The following methods are available:
 ### User methods 
 
 - **CreateUsers** (single or batch multiple)  
-You can supply this method with 1 or more user details (each can contain details of its assigned organization).   
+This function receives details of 1 or more user to create (each can contain details of its assigned organization).   
 Note that some user's fields are mandatory for creating new users. Those are listed in the table below, [User fields](#user-fields). 
 This function will:  
   - Create the users  
