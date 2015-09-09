@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Linq;
-using Telerik.Newtonsoft.Json;
 
-namespace SitefinityWebApp.NetDimensions
+namespace NetDimensionsWrapper.NetDimensions
 {
     /// <summary>
     /// Extracts the ID string out of a JSON structure of an object with an "id" field

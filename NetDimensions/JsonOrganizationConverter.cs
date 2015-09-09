@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Telerik.Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace SitefinityWebApp.NetDimensions
+namespace NetDimensionsWrapper.NetDimensions
 {
     /// <summary>
     /// Converts a JSON structure of organizations (each with its parent, up to the ROOT), to a hierarchical comma-delimited string or organization codes.

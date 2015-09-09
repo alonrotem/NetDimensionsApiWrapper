@@ -1,27 +1,27 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml;
-using Telerik.Newtonsoft.Json;
-using Telerik.Newtonsoft.Json.Linq;
 
-namespace SitefinityWebApp.NetDimensions
+namespace NetDimensionsWrapper.NetDimensions
 {
     /// <summary>
-    /// A wrapper for NetDimensions talent suite API functions
+    /// A wrapper for NetDimensions Talent Suite API functions
     /// </summary>
-    public class NetDimensionsWrapper
+    public class NDWrapper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NetDimensionsWrapper" /> class.
+        /// Initializes a new instance of the <see cref="NDWrapper" /> class.
         /// </summary>
         /// <param name="userAuthUsername">Username for API methods which require USER authentication</param>
         /// <param name="userAuthPassword">Passwotd for API methods which require USER authentication</param>
         /// <param name="systemAutoKey">Authentication key for API methods which require SYSTEM authentication</param>
         /// <param name="lmsBaseUrl">Base URL of the LMS</param>
-        public NetDimensionsWrapper(string userAuthUsername, string userAuthPassword, string systemAuthKey, string lmsBaseUrl)
+        public NDWrapper(string userAuthUsername, string userAuthPassword, string systemAuthKey, string lmsBaseUrl)
         {
             this.UserAuthUser = userAuthUsername;
             this.UserAuthPass = userAuthPassword;
@@ -42,18 +42,18 @@ namespace SitefinityWebApp.NetDimensions
         {
             if (users.Length == 0)
                 return null;
-            if ((users.Any(u => u.UserID.IsNullOrWhitespace())) ||
-                (users.Any(u => u.LastName.IsNullOrWhitespace())) ||
-                (users.Any(u => u.FirstName.IsNullOrWhitespace())) ||
-                (users.Any(u => u.Password.IsNullOrWhitespace())) ||
-                (users.Any(u => u.Email.IsNullOrWhitespace())))
+            if ((users.Any(u => string.IsNullOrWhiteSpace(u.UserID))) ||
+                (users.Any(u => string.IsNullOrWhiteSpace(u.LastName)) ||
+                (users.Any(u => string.IsNullOrWhiteSpace(u.FirstName))) ||
+                (users.Any(u => string.IsNullOrWhiteSpace(u.Password))) ||
+                (users.Any(u => string.IsNullOrWhiteSpace(u.Email)))))
             {
                 throw new ArgumentException("To create a user, the following fields are mandatory: UserID, LastName, FirstName, Password, Email");
             }
 
             UserActionResults result = null;
 
-            string serviceApiUrl = string.Format(NetDimensionsConstants.API_UsersCsv, this.LmsUrl);
+            string serviceApiUrl = string.Format(NetDimensionsConstants.ApiUsersCsv, this.LmsUrl);
             string usersCsv = NetDimensionsUser.GetCsv(NetDimensionsConstants.UserActions.AddOrUpdate, users);
 
             using (WebClient apiWebClient = new WebClient())
@@ -80,7 +80,7 @@ namespace SitefinityWebApp.NetDimensions
                         organizationUsers.Add(user.Organization, new List<string>());
                     }
                     organizationInList = organizationUsers.Keys.FirstOrDefault(o => o.Code == user.Organization.Code);
-                    if (organizationInList.Description.IsNullOrWhitespace())
+                    if (string.IsNullOrWhiteSpace(organizationInList.Description))
                         organizationInList.Description = user.Organization.Description;
 
                     if (!organizationUsers[organizationInList].Contains(user.UserID))
@@ -111,11 +111,11 @@ namespace SitefinityWebApp.NetDimensions
 
             foreach (string userId in userIds)
             {
-                if (!userId.IsNullOrWhitespace())
+                if (!string.IsNullOrWhiteSpace(userId))
                     usersCsvBuilder.AppendFormat("\n{0},{1}", NetDimensionsConstants.UserActions.Delete, userId);
             }
 
-            string serviceApiUrl = string.Format(NetDimensionsConstants.API_UsersCsv, this.LmsUrl);
+            string serviceApiUrl = string.Format(NetDimensionsConstants.ApiUsersCsv, this.LmsUrl);
             using (WebClient apiWebClient = new WebClient())
             {
                 apiWebClient.Headers[HttpRequestHeader.ContentType] = "text/plain";
@@ -136,24 +136,30 @@ namespace SitefinityWebApp.NetDimensions
         /// Gets details of a user from the LMS.
         /// </summary>
         /// <param name="userId_or_email">The user's ID or email address.</param>
+        /// <param name="forceAsUseId">If set to true, search will be for a user by their ID only (even if it contains @. otherwise this is auto-determined)</param>
         /// <returns>The user's details. Note that not all fields are returned from the LMS.</returns>
-        public NetDimensionsUser GetUser(string userIdOrEmail)
+        public NetDimensionsUser GetUser(string userIdOrEmail, bool forceAsUseId = false)
         {
             NetDimensionsUser user = null;
-            string serviceApiUrl = string.Format(NetDimensionsConstants.API_GetUsers, this.LmsUrl);
+            string serviceApiUrl = string.Format(NetDimensionsConstants.ApiGetUsers, this.LmsUrl);
             using (WebClient apiWebClient = new WebClient())
             {
                 apiWebClient.Headers[HttpRequestHeader.ContentType] = "text/plain";
                 apiWebClient.Credentials = new NetworkCredential(this.UserAuthUser, this.UserAuthPass);
-                if (userIdOrEmail.Contains("@"))
-                    apiWebClient.QueryString.Add("email", userIdOrEmail);
-                else
+                if (!userIdOrEmail.Contains("@") || forceAsUseId)
+                {
                     apiWebClient.QueryString.Add("userId", userIdOrEmail);
+                }
+                else
+                {
+                    apiWebClient.QueryString.Add("email", userIdOrEmail);
+                }
+
                 apiWebClient.QueryString.Add("format", "json");
                 string jsonResponse = Encoding.UTF8.GetString(apiWebClient.DownloadData(serviceApiUrl));
 
                 dynamic dynamicResponseObject = JObject.Parse(jsonResponse);
-                if ((dynamicResponseObject != null) && (dynamicResponseObject["users"] != null) && (dynamicResponseObject["users"][0] != null))
+                if ((dynamicResponseObject != null) && (dynamicResponseObject["users"] != null) && (dynamicResponseObject["users"].Count > 0) && (dynamicResponseObject["users"][0] != null))
                 {
                     dynamic jsonUser = dynamicResponseObject["users"][0];
                     user = JsonConvert.DeserializeObject<NetDimensionsUser>(jsonUser.ToString());
@@ -211,10 +217,12 @@ namespace SitefinityWebApp.NetDimensions
         /// <returns>Details of the organization.</returns>
         public NetDimensionsOrganization GetOrganization(string organizationHierarchyCode)
         {
-            if (organizationHierarchyCode.IsNullOrWhitespace())
+            if (string.IsNullOrWhiteSpace(organizationHierarchyCode))
+            {
                 return null;
+            }
 
-            string serviceApiUrl = string.Format(NetDimensionsConstants.API_GetOrganization, this.LmsUrl);
+            string serviceApiUrl = string.Format(NetDimensionsConstants.ApiGetOrganization, this.LmsUrl);
             NetDimensionsOrganization currentOrganization = null;
             string currentLevelOrganizationsJs = string.Empty;
             using (WebClient apiWebClient = new WebClient())
@@ -266,7 +274,7 @@ namespace SitefinityWebApp.NetDimensions
         /// <param name="organizationDescription">The organization's description (relevant when creating).</param>
         private void PerformOrganizationAction(NetDimensionsConstants.OrganizationActions action, string organizationHierarchyCode, string organizationDescription)
         {
-            string serviceApiUrl = string.Format(NetDimensionsConstants.API_Organizations, this.LmsUrl);
+            string serviceApiUrl = string.Format(NetDimensionsConstants.ApiOrganizations, this.LmsUrl);
 
             var xmldoc = new XmlDocument();
             XmlNode docNode = xmldoc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -305,10 +313,12 @@ namespace SitefinityWebApp.NetDimensions
         /// <param name="organizationHierarchyCode">The organization's code in a  comma-delimited hierarchy list of organizations (not counting ROOT). e.g.: "PSC,AutoGen"</param>
         public void AddUsersToOrganization(string[] userIds, string organizationHierarchyCode)
         {
-            if ((userIds.Length == 0) || (organizationHierarchyCode.IsNullOrWhitespace()))
+            if (userIds.Length == 0 || string.IsNullOrWhiteSpace(organizationHierarchyCode))
+            {
                 return;
+            }
 
-            string serviceApiUrl = string.Format(NetDimensionsConstants.API_Organizations, this.LmsUrl);
+            string serviceApiUrl = string.Format(NetDimensionsConstants.ApiOrganizations, this.LmsUrl);
 
             var xmldoc = new XmlDocument();
             XmlNode docNode = xmldoc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -357,15 +367,17 @@ namespace SitefinityWebApp.NetDimensions
             NetDimensionsOrganization org = this.GetOrganization(organizationHierarchyCode);
             if (org != null)
             {
-                string serviceApiUrl = string.Format(NetDimensionsConstants.API_GetUserInOrganization, this.LmsUrl);
+                string serviceApiUrl = string.Format(NetDimensionsConstants.ApiGetUserInOrganization, this.LmsUrl);
                 using (WebClient apiWebClient = new WebClient())
                 {
                     apiWebClient.Headers[HttpRequestHeader.ContentType] = "application/xml";
                     apiWebClient.Credentials = new NetworkCredential(this.UserAuthUser, this.SysAuthKey);
                     apiWebClient.QueryString.Add("organizationId", org.Id);
                     
-                    if(!stat.IsNullOrWhitespace())
+                    if(!string.IsNullOrWhiteSpace(stat))
+                    {
                         apiWebClient.QueryString.Add("status", stat);
+                    }
                         
                     string retVal = apiWebClient.UploadString(serviceApiUrl, "GET");
 
@@ -375,8 +387,10 @@ namespace SitefinityWebApp.NetDimensions
                     ns.AddNamespace(doc.DocumentElement.Prefix, doc.DocumentElement.NamespaceURI);
                     XmlNodeList userNodes = doc.DocumentElement.SelectNodes(string.Format("//{0}:user/{0}:id", doc.DocumentElement.Prefix), ns);
                     foreach (XmlNode xn in userNodes)
+                    {
                         users.Add(xn.InnerText);
                 }
+            }
             }
 
             return users.ToArray();
@@ -386,7 +400,9 @@ namespace SitefinityWebApp.NetDimensions
 
         public string UserAuthUser { get; private set; }
         public string UserAuthPass { get; private set; }
+        
         public string SysAuthKey { get; private set; }
+        
         public string LmsUrl { get; private set; }
     }
 }

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Linq;
 
-namespace SitefinityWebApp.NetDimensions
+namespace NetDimensionsWrapper.NetDimensions
 {
     public static class NetDimensionsConstants
     {
-        public static readonly string API_UsersCsv = "{0}/contentHandler/usersCsv";
-        public static readonly string API_Organizations = "{0}/contentHandler/imsEnterprise";
-        public static readonly string API_GetOrganization = "{0}/api/organization";
-        public static readonly string API_GetUsers = "{0}/api/users";
-        public static readonly string API_GetUserInOrganization = "{0}/api/users200510Xml";
+        public static readonly string ApiUsersCsv = "{0}/contentHandler/usersCsv";
+        public static readonly string ApiOrganizations = "{0}/contentHandler/imsEnterprise";
+        public static readonly string ApiGetOrganization = "{0}/api/organization";
+        public static readonly string ApiGetUsers = "{0}/api/users";
+        public static readonly string ApiGetUserInOrganization = "{0}/api/users200510Xml";
 
-        public readonly static string ActionResult_NoErrorToken = "No Error Occurred";
-        public readonly static string ActionResult_WarningToken = "WARNING. ";
+        public readonly static string ActionResultNoErrorToken = "No Error Occurred";
+        public readonly static string ActionResultWarningToken = "WARNING. ";
         
         public static readonly string CsvPattern = @"""\s*,\s*""";
 

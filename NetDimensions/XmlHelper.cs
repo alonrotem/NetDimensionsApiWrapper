@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml;
 
-namespace SitefinityWebApp.NetDimensions
+namespace NetDimensionsWrapper.NetDimensions
 {
     /// <summary>
     /// A helper class to help generate XML nodes quickly and easily
@@ -18,11 +18,23 @@ namespace SitefinityWebApp.NetDimensions
         /// <returns>The created node</returns>
         public static XmlNode AppendNode(this XmlNode parentNode, string nodeName, string nodeTextContent = "")
         {
-            if ((!nodeName.IsNullOrWhitespace()) && (parentNode != null))
+            if ((!string.IsNullOrWhiteSpace(nodeName)) && (parentNode != null))
             {
-                XmlNode xmlnode = parentNode.OwnerDocument.CreateElement(nodeName);
-                if (!nodeTextContent.IsNullOrWhitespace())
+                XmlNode xmlnode;
+                if (parentNode is XmlDocument)
+                {
+                    xmlnode = ((XmlDocument)parentNode).CreateElement(nodeName);
+                }
+                else
+                {
+                    xmlnode = parentNode.OwnerDocument.CreateElement(nodeName);
+                }
+
+                if (!string.IsNullOrWhiteSpace(nodeTextContent))
+                {
                     xmlnode.AppendChild(parentNode.OwnerDocument.CreateTextNode(nodeTextContent));
+                }
+
                 parentNode.AppendChild(xmlnode);
                 return xmlnode;
             }
@@ -37,7 +49,7 @@ namespace SitefinityWebApp.NetDimensions
         /// <param name="attributeValue">The attribute's value.</param>
         public static void AppendAttribute(this XmlNode node, string attributeName, string attributeValue)
         {
-            if ((node != null) && (!attributeName.IsNullOrWhitespace()))
+            if ((node != null) && (!string.IsNullOrWhiteSpace(attributeName)))
             {
                 XmlAttribute attr = node.OwnerDocument.CreateAttribute(attributeName);
                 attr.Value = attributeValue;

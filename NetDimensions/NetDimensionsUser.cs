@@ -3,9 +3,10 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Telerik.Newtonsoft.Json;
 
-namespace SitefinityWebApp.NetDimensions
+using Newtonsoft.Json;
+
+namespace NetDimensionsWrapper.NetDimensions
 {
     /// <summary>
     /// Represents a user in the NetDimensions system
@@ -345,7 +346,7 @@ namespace SitefinityWebApp.NetDimensions
                 if (attributes.Length == 0)
                     continue;
                 CsvFieldAttribute att = (CsvFieldAttribute)attributes[0];
-                if ((att != null) && (!att.CsvFieldHeader.IsNullOrWhitespace()))
+                if ((att != null) && (!string.IsNullOrWhiteSpace(att.CsvFieldHeader)))
                     fieldName = att.CsvFieldHeader;
 
                 csvHeaders[actualHeaderIndex] = fieldName;
@@ -388,7 +389,7 @@ namespace SitefinityWebApp.NetDimensions
                         }
                         else
                         {
-                            if ((propValue != null) && (!propValue.ToString().IsNullOrWhitespace()))
+                            if ((propValue != null) && (!string.IsNullOrWhiteSpace(propValue.ToString())))
                                 valueString = "\"" + propValue.ToString() + "\"";
                             else
                                 valueString = string.Empty;
@@ -398,13 +399,14 @@ namespace SitefinityWebApp.NetDimensions
                 }
                 actualHeaderIndex++;
             }
-            csvSb.Append(String.Join(",", csvHeaders));
+
+            csvSb.Append(string.Join(",", csvHeaders));
             csvSb.Append("\n");
             for (int u = 0; u < users.Length; u++)
             { 
                 if(u > 0)
                     csvSb.Append("\n");
-                csvSb.Append(String.Join(",", csvData[u]));
+                csvSb.Append(string.Join(",", csvData[u]));
             }
             return csvSb.ToString();
         }

@@ -5,6 +5,8 @@ To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetD
 ## TOC
 In this Readme:
 - [About the wrapper](#about-the-wrapper)
+  - [NuGet References](#nuGet-references)
+  - [Adding the wrapper to your solution](#adding-the-wrapper-to-your-solution)
 - [Wrapper supported methods](#wrapper-supported-methods)
   - [User methods](#user-methods)
   - [Organization methods](#organization-methods)
@@ -15,6 +17,17 @@ In this Readme:
 Working with the wrapper is straightforward, as it sends/returns objects of the types represented in the related C# classes. However, it unifies work against different underlying API methods, which require different formats (some JSON, some XML of different schemes), different authentication modes (some with a user and password, some with a system key) etc.
 
 It was built and tested with <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions Talent Suite</a> version 10.3.0.693 STANDARD.
+
+### NuGet References
+This wrapper references [Newtonsoft.Json](http://www.nuget.org/packages/Newtonsoft.Json/), which should be auto-restored and added to the project at build-time (See [Adding the wrapper to your solution](#adding-the-wrapper-to-your-solution) below).
+
+### Adding the wrapper to your solution
+1. Add the NetDimensionsWrapper project to your solution.
+1. Add a reference of the NetDimensionsWrapper project to your client project (web / console / Winforms / WPF / whateva application).
+1. Build the solution. NuGet packages ([Newtonsoft.Json](http://www.nuget.org/packages/Newtonsoft.Json/)) should be automatically restored. If not:   
+ - In Visual Studio, click **View** on the main menu and select **Solution Explorer**
+ - Right-click the solution and select **Enable NuGet Package Restore**.
+ - Rebuild your solution.
 
 [[^ Back to TOC](#toc)]
 
