@@ -5,9 +5,10 @@ To learn more, see <a href="https://wiki.netdimensions.com" target="_blank">NetD
 ## TOC
 In this Readme:
 - [About the wrapper](#about-the-wrapper)
-  - [NuGet References](#nuGet-references)
+  - [NuGet References](#nuget-references)
   - [Adding the wrapper to your solution](#adding-the-wrapper-to-your-solution)
 - [Wrapper supported methods](#wrapper-supported-methods)
+  - [Construction and initialization](#construction-and-initialization) 
   - [User methods](#user-methods)
   - [Organization methods](#organization-methods)
   - [User/organization methods](#userorganization-methods)
@@ -19,12 +20,12 @@ Working with the wrapper is straightforward, as it sends/returns objects of the 
 It was built and tested with <a href="http://www.netdimensions.com/talent-management-suite/" target="_blank">NetDimensions Talent Suite</a> version 10.3.0.693 STANDARD.
 
 ### NuGet References
-This wrapper references [Newtonsoft.Json](http://www.nuget.org/packages/Newtonsoft.Json/), which should be auto-restored and added to the project at build-time (See [Adding the wrapper to your solution](#adding-the-wrapper-to-your-solution) below).
+This wrapper references <a href="http://www.nuget.org/packages/Newtonsoft.Json/" target="_blank">Newtonsoft.Json</a>, which should be auto-restored and added to the project at build-time (See [Adding the wrapper to your solution](#adding-the-wrapper-to-your-solution) below).
 
 ### Adding the wrapper to your solution
 1. Add the NetDimensionsWrapper project to your solution.
 1. Add a reference of the NetDimensionsWrapper project to your client project (web / console / Winforms / WPF / whateva application).
-1. Build the solution. NuGet packages ([Newtonsoft.Json](http://www.nuget.org/packages/Newtonsoft.Json/)) should be automatically restored. If not:   
+1. Build the solution. NuGet packages (<a href="http://www.nuget.org/packages/Newtonsoft.Json/" target="_blank">Newtonsoft.Json</a>) should be automatically restored. If not:   
  - In Visual Studio, click **View** on the main menu and select **Solution Explorer**
  - Right-click the solution and select **Enable NuGet Package Restore**.
  - Rebuild your solution.
@@ -32,7 +33,28 @@ This wrapper references [Newtonsoft.Json](http://www.nuget.org/packages/Newtonso
 [[^ Back to TOC](#toc)]
 
 ## Wrapper supported methods ##
-The following methods are available:
+
+### Construction and initialization
+To initialize the connection with the NetDimensions LMS, an instance of the `NDWrapper` class must be initialized by calling the constructor method. In order to communicate with the LMS, you need to supply user credentials and system credentials. 
+
+As stated in the NetDimensions Wiki article, <a href="https://wiki.netdimensions.com/confluence/display/ptk/Authentication+modes" target="_blank">Authentication modes</a>, different Talent Suite API methods require different levels of authentication:
+- User authentication   
+Invocation of user-authenticated methods require a username and a password of a sufficiently-privileged user.
+
+- System authentication  
+"*When calling a function that uses system authentication, the caller must supply **a global system password** ... The value of the password is configured in the *`WEB-INF/conf/ekp.properties`* configuration file using the *`authentication.key`* property.*" (from the Wiki).
+
+**Also note** (from the wiki): "*when using **HTTP basic access authentication**, credentials are passed in what is essentially **clear text***". This is the method used by default by the wrapper. 
+
+To initialize a NDWrapper object, its constuctor requires 4 arguments, and all 4 need to be supplied (all are strings):
+ - **userAuthUsername** and **userAuthPassword**  
+ Those are used by the wrapper for API methods which require user authentication (see above).
+
+ - **systemAuthKey**   
+ This is used by the wrapper for API methods which require system authentication (see above).
+
+ - **lmsBaseUrl**  
+ This is the base URL where your NetDimensions Talent Suite is installed. Specific API service URLs are appended to it by the wrapper at runtime.
 
 ### User methods 
 
