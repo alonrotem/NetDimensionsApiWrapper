@@ -44,7 +44,7 @@ Invocation of user-authenticated methods require a username and a password of a 
 - System authentication  
 "*When calling a function that uses system authentication, the caller must supply a global system password ... The value of the password is configured in the `WEB-INF/conf/ekp.properties` configuration file using the `authentication.key` property.*" (from the Wiki).
 
-**Also note** (from the wiki): "*When using **HTTP basic access authentication**, credentials are passed in what is essentially **clear text***". This is the method used by default by the wrapper. 
+**Also note** (from the wiki): "*When using **HTTP basic access authentication**, credentials are passed in what is essentially clear text*". This is the method used by default by the wrapper. 
 
 To initialize a NDWrapper object, its constuctor requires 4 arguments, and all 4 need to be supplied (all are strings):
  - **userAuthUsername** and **userAuthPassword**  
