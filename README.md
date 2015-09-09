@@ -44,7 +44,7 @@ Invocation of user-authenticated methods require a username and a password of a 
 - System authentication  
 "<i>When calling a function that uses system authentication, the caller must supply a global system password ... The value of the password is configured in the</i> <b>`WEB-INF/conf/ekp.properties`</b> <i>configuration file using the</i><b> `authentication.key` </b><i>property.</i>" (<a href="https://wiki.netdimensions.com/confluence/display/ptk/Authentication+modes" target="_blank">from the Wiki</a>).
 
-**Also note** (from the wiki): "<i>When using <b>HTTP basic access</b> authentication, credentials are passed in what is essentially <b>clear text</b><i>". This is the method used by default by the wrapper. 
+**Also note** (from the wiki): "<i>When using <b>HTTP basic access</b> authentication, credentials are passed in what is essentially <b>clear text</b></i>". <b>This is the method used by default by the wrapper</b>. 
 
 To initialize a NDWrapper object, its constuctor requires 4 arguments, and all 4 need to be supplied (all are strings):
  - **userAuthUsername** and **userAuthPassword**  
