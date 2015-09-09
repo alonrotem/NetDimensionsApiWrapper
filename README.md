@@ -42,7 +42,7 @@ As stated in the NetDimensions Wiki article, <a href="https://wiki.netdimensions
 Invocation of user-authenticated methods require a username and a password of a sufficiently-privileged user.
 
 - System authentication  
-"<i>When calling a function that uses system authentication, the caller must supply a global system password ... The value of the password is configured in the</i> <b>`WEB-INF/conf/ekp.properties`</b> <i>configuration file using the</i><b> `authentication.key` </b><i>property.</i>" ( <a href="https://wiki.netdimensions.com/confluence/display/ptk/Authentication+modes" target="_blank">from the Wiki</a>).
+"<i>When calling a function that uses system authentication, the caller must supply a global system password ... The value of the password is configured in the</i> <b>`WEB-INF/conf/ekp.properties`</b> <i>configuration file using the</i><b> `authentication.key` </b><i>property.</i>" (<a href="https://wiki.netdimensions.com/confluence/display/ptk/Authentication+modes" target="_blank">from the Wiki</a>).
 
 **Also note** (from the wiki): "<i>When using <b>HTTP basic access</b> authentication, credentials are passed in what is essentially <b>clear text</b><i>". This is the method used by default by the wrapper. 
 
