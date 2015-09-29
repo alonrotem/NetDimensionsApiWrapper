@@ -114,7 +114,7 @@ To get information about organizations in your system, use the following service
 
 This URL's method is `GET`, so if your user has sufficient permissions to access the API, while logged in, just open this URL in your browser to get a full hierarchical JSON of all the organizations.
 
-**Using the organization codes**
+**Using the organization codes**   
 To create an organization (using the **CreateOrganization** method below, or embedded in the user's properties, when calling **CreateUsers**), you should list the organizations' codes (each of the `code` fields), in a comma-delimited list - **not including the root ** organization.
 
 Here is a example JSON structure, which may be received by calling the organizations service endpoint above: 
