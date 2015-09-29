@@ -108,12 +108,13 @@ Organizations in the NetDimensions LMS are hierarchical. Each Organization has i
 -  Child-organization (`children` field)
   
 To get information about organizations in your system, use the following service:  
+
 <i>https://**&lt;your LMS root URL&gt;**/api/organization?id=*ROOT*&recursive=true&format=json&assignmentId=</i>  
 
 This URL's method is `GET`, so if your user has sufficient permissions to access the API, while logged in, just open this URL in your browser to get a full hierarchical JSON of all the organizations.
 
 **Using the codes**
-To create an organization (using the **CreateOrganization** method below, or embedded in the user's properties, when calling **CreateUsers**), you should list the organizations' codes (each of the `code` fields), in a comma-delimited list - **not including the root **organization.
+To create an organization (using the **CreateOrganization** method below, or embedded in the user's properties, when calling **CreateUsers**), you should list the organizations' codes (each of the `code` fields), in a comma-delimited list - **not including the root ** organization.
 
 For example, here is a sample JSON structure that can be received by calling the organizations service: 
 
