@@ -190,7 +190,7 @@ Given an organization hierarchy of codes, this method deletes an organization fr
 
 
 - **GetOrganization** (single)   
-This method returns the basic data of an organization in the system (its code, ID, description and hierarchy or parents).  
+This method returns the basic data of an organization in the system (its code, ID, description and hierarchy of parents).  
   **Arguments:**  
    - organizationHierarchyCode (string)  
    An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
