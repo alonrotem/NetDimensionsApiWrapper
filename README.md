@@ -159,10 +159,10 @@ Here is a example JSON structure, which may be received by calling the organizat
 } 
 ```
 
-To assign users to the "Unpaid users" organization, supply the following string:
+To assign users to the "Unpaid users" organization, supply the following string:  
 `MyCompany,UnpaidUsers`
 
-To create a sub-organization under the "Unpaid users" organization, supply the following string:
+To create a sub-organization under the "Unpaid users" organization, supply the following string:  
 `MyCompany,UnpaidUsers,<your new organization code>`
 
 [[^ Back to TOC](#toc)]
