@@ -86,6 +86,7 @@ This function receives 1 or more user IDs, and will delete all of them.
 
 - **GetUser** (single)   
 This function receives a user’s ID or an email address, and returns the user’s details (if found), including all its attributes and their assigned organization. 
+
   **Arguments:**  
  - userIdOrEmail (string)   
    The **ID or email address ** of the user to retrive.
@@ -171,6 +172,7 @@ To create a sub-organization under the "Unpaid users" organization, supply the f
 
  - **CreateOrganization** (single)   
   Given an organization hierarchy of codes and an optional description, this method creates an organization in the system.  
+
   **Arguments:**  
    - organizationHierarchyCode (string)  
    An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
@@ -181,7 +183,8 @@ To create a sub-organization under the "Unpaid users" organization, supply the f
   **Returns:** Void.
 
 - **DeleteOrganization** (single)   
-Given an organization hierarchy of codes, this method deletes an organization from the system.  
+Given an organization hierarchy of codes, this method deletes an organization from the system.
+
   **Arguments:**  
    - organizationHierarchyCode (string)  
    An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
@@ -190,7 +193,8 @@ Given an organization hierarchy of codes, this method deletes an organization fr
 
 
 - **GetOrganization** (single)   
-This method returns the basic data of an organization in the system (its code, ID, description and hierarchy of parents).  
+This method returns the basic data of an organization in the system (its code, ID, description and hierarchy of parents).
+
   **Arguments:**  
    - organizationHierarchyCode (string)  
    An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
@@ -203,6 +207,7 @@ This method returns the basic data of an organization in the system (its code, I
 
 - **AddUsersToOrganization** (single or batch multiple)   
 Given one or more user IDs and an organization code, this method assigns users to the organization.
+
   **Arguments:**  
    - userIds (an array of strings)   
    IDs of the users to add to the selected organization.
@@ -214,6 +219,7 @@ Given one or more user IDs and an organization code, this method assigns users t
 
 - **GetUsersInOrganization** (single)   
 Given an organization code and optional user status (e.g. all the "active" users), it returns the IDs of the users in that organization.
+
   **Arguments:**  
    - organizationHierarchyCode (string)  
    An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)  
