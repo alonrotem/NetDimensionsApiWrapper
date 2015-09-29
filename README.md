@@ -11,8 +11,8 @@ In this Readme:
   - [Construction and initialization](#construction-and-initialization) 
   - [User methods](#user-methods)
   - [Organization methods](#organization-methods)
-    - [A word about organization codes](#a_word_about_organization_codes) 
-    - [Supported organization methods](#supported_organization_methods)
+    - [A word about organization codes](#a-word-about-organization-codes) 
+    - [Supported organization methods](#supported-organization-methods)
   - [User/organization methods](#userorganization-methods)
 - [User fields](#user-fields)
 
@@ -171,7 +171,7 @@ To create a sub-organization under the "Unpaid users" organization, supply the f
   Given an organization hierarchy of codes and an optional description, this method creates an organization in the system.  
   **Arguments:**  
    - organizationHierarchyCode (string)  
-   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
 
   - organizationDescription (string)   
   A description text for the newly created organization
@@ -182,7 +182,7 @@ To create a sub-organization under the "Unpaid users" organization, supply the f
 Given an organization hierarchy of codes, this method deletes an organization from the system.  
   **Arguments:**  
    - organizationHierarchyCode (string)  
-   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
 
   **Returns:** Void.	
 
@@ -191,7 +191,7 @@ Given an organization hierarchy of codes, this method deletes an organization fr
 This method returns the basic data of an organization in the system (its code, ID, description and hierarchy or parents).  
   **Arguments:**  
    - organizationHierarchyCode (string)  
-   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
 
   **Returns:** A NetDimensionsOrganization object, with a full hierarchy of parents.	
 
@@ -206,7 +206,7 @@ Given one or more user IDs and an organization code, this method assigns users t
    IDs of the users to add to the selected organization.
    
    - organizationHierarchyCode (string)  
-   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)
 
   **Returns:** Void.
 
@@ -214,7 +214,7 @@ Given one or more user IDs and an organization code, this method assigns users t
 Given an organization code and optional user status (e.g. all the "active" users), it returns the IDs of the users in that organization.
   **Arguments:**  
    - organizationHierarchyCode (string)  
-   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)  
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a-word-about-organization-codes) above)  
 
  - stat (string, optional. Default: empty string)  
 	Set this string to the state of the users to retrieve (e.g. "active"), if relevant.
