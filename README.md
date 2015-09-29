@@ -109,7 +109,7 @@ Organizations in the NetDimensions LMS are hierarchical. Each Organization has i
   
 To get information about organizations in your system, use the following service:  
 
-<i>https://**&lt;your LMS root URL&gt;**/api/organization?id=*ROOT*&recursive=true&format=json&assignmentId=</i>  
+<i style="background-color:yellow">https://**&lt;your LMS root URL&gt;**/api/organization?id=*ROOT*&recursive=true&format=json&assignmentId=</i>  
 
 This URL's method is `GET`, so if your user has sufficient permissions to access the API, while logged in, just open this URL in your browser to get a full hierarchical JSON of all the organizations.
 
