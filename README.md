@@ -11,6 +11,8 @@ In this Readme:
   - [Construction and initialization](#construction-and-initialization) 
   - [User methods](#user-methods)
   - [Organization methods](#organization-methods)
+    - [A word about organization codes](#a_word_about_organization_codes) 
+    - [Supported organization methods](#supported_organization_methods)
   - [User/organization methods](#userorganization-methods)
 - [User fields](#user-fields)
 
@@ -66,31 +68,158 @@ This function will:
   - Create their assigned organizations, if those don’t exist  
   - Assign each user to their respective organization.
 
+  **Arguments:**  
+   - users (an array of NetDimensionUser objects)  
+   The users to create, with all their relevant details + optional organization. See [User fields](#user-fields) below, to learn which fields are mandatory.
+
+  **Returns:** An UserActionResults object, parsed results from the LMS, including the success status (success/fail), errors and warnings, if received.
+
  
 - **DeleteUsers** (single or batch multiple)  
 This function receives 1 or more user IDs, and will delete all of them.
 
+  **Arguments:**  
+ - userIds (an array of strings)   
+   IDs of the users to add to the delete.
+
+  **Returns:** An UserActionResults object, parsed results from the LMS, including the success status (success/fail), errors and warnings, if received.
+
 - **GetUser** (single)   
-This function receives a user’s ID or an email address, and returns the user’s details (if found), including all its attributes and their assigned organization.   
-Note that not all the user's fields are returned by the **GetUser** function. The ones which are returned are listed in the table below, [User fields](#user-fields). 
+This function receives a user’s ID or an email address, and returns the user’s details (if found), including all its attributes and their assigned organization. 
+  **Arguments:**  
+ - userIdOrEmail (string)   
+   The **ID or email address ** of the user to retrive.
+ 
+ - forceAsUseId (boolean, optional. Default: false)  
+ When this is set to true, the userIdOrEmail argument is forcefully treated as a user ID, even if it's formatted as an email address (otherwise, it's automatically determined by its structure). 
+
+  **Returns:** A NetDimensionsUser object.  
+  Note that not all the user's fields are returned by the **GetUser** function. The ones which are returned are listed in the table below, [User fields](#user-fields). 
+
+[[^ Back to TOC](#toc)]
 
 ### Organization methods 
+
+#### A word about organization codes
+Organizations in the NetDimensions LMS are hierarchical. Each Organization has its own:
+-  **Unique** ID, can be a GUID for example (`id` field)
+-  It's own code, unique in its hierarchical level among siblings (`code` field)
+-  Description text (`description` field)
+-  Child-organization (`children` field)
+  
+To get information about organizations in your system, use the following service:  
+<i>https://**&lt;your LMS root URL&gt;**/api/organization?id=*ROOT*&recursive=true&format=json&assignmentId=</i>  
+
+This URL's method is `GET`, so if your user has sufficient permissions to access the API, while logged in, just open this URL in your browser to get a full hierarchical JSON of all the organizations.
+
+**Using the codes**
+To create an organization (using the **CreateOrganization** method below, or embedded in the user's properties, when calling **CreateUsers**), you should list the organizations' codes (each of the `code` fields), in a comma-delimited list - **not including the root **organization.
+
+For example, here is a sample JSON structure that can be received by calling the organizations service: 
+
+```json
+{
+    "id": "*ROOT*",
+    "code": "ROOT",
+    "description": "ALL",
+    "attributes": [ ],
+    "children": [
+		{
+			"id": "F2137E1C-8BFD-468E-89A7-ACFBB95DD9ED",
+			"code": "MyCompany",
+			"description": "My company",
+			"attributes": [ ],
+			"children": [
+				{
+					"id": "DC8A048D-003E-4E48-B238-82DEF4C0C3C5",
+					"code": "PaidUsers",
+					"description": "Paid users",
+					"attributes": [ ],
+					"children": [ ]
+				},
+				{
+					"id": "8BAC5C54-4490-4DCD-9E91-95582FA24FB4",
+					"code": "UnpaidUsers",
+					"description": "Unpaid users",
+					"attributes": [ ],
+					"children": [ ]
+				}
+			]
+		},
+		{
+			"id": "95B511D1-4521-44A8-94E5-819E9AA50BF6",
+			"code": "MyOtherCompany",
+			"description": "My other company",
+			"attributes": [ ],
+			"children": [ ]
+		}
+	]
+} 
+```
+
+To assign users to the "Unpaid users" organization, supply the following string:
+`MyCompany,UnpaidUsers`
+
+To create a sub-organization under the "Unpaid users" organization, supply the following string:
+`MyCompany,UnpaidUsers,<your new organization code>`
+
+[[^ Back to TOC](#toc)]
+
+#### Supported organization methods
+
  - **CreateOrganization** (single)   
-Given an organization hierarchy of codes and an optional description, this method creates an organization in the system.
+  Given an organization hierarchy of codes and an optional description, this method creates an organization in the system.  
+  **Arguments:**  
+   - organizationHierarchyCode (string)  
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+
+  - organizationDescription (string)   
+  A description text for the newly created organization
+
+  **Returns:** Void.
 
 - **DeleteOrganization** (single)   
-Given an organization hierarchy of codes, this method deletes an organization from the system.
+Given an organization hierarchy of codes, this method deletes an organization from the system.  
+  **Arguments:**  
+   - organizationHierarchyCode (string)  
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+
+  **Returns:** Void.	
+
 
 - **GetOrganization** (single)   
-This method returns the basic data of an organization in the system (its code, ID, description and hierarchy or parents).
+This method returns the basic data of an organization in the system (its code, ID, description and hierarchy or parents).  
+  **Arguments:**  
+   - organizationHierarchyCode (string)  
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+
+  **Returns:** A NetDimensionsOrganization object, with a full hierarchy of parents.	
+
+[[^ Back to TOC](#toc)]
 
 ### User/organization methods 
 
 - **AddUsersToOrganization** (single or batch multiple)   
 Given one or more user IDs and an organization code, this method assigns users to the organization.
+  **Arguments:**  
+   - userIds (an array of strings)   
+   IDs of the users to add to the selected organization.
+   
+   - organizationHierarchyCode (string)  
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)
+
+  **Returns:** Void.
 
 - **GetUsersInOrganization** (single)   
 Given an organization code and optional user status (e.g. all the "active" users), it returns the IDs of the users in that organization.
+  **Arguments:**  
+   - organizationHierarchyCode (string)  
+   An organization comma-separated list of hierarchical codes (see [A word about organization codes](#a_word_about_organization_codes) above)  
+
+ - stat (string, optional. Default: empty string)  
+	Set this string to the state of the users to retrieve (e.g. "active"), if relevant.
+
+  **Returns:** An array of strings, IDs of the user in the selected organization.
 
 [[^ Back to TOC](#toc)]
 
