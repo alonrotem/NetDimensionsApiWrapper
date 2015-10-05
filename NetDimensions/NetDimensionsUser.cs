@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
 using Newtonsoft.Json;
 
 namespace NetDimensionsWrapper.NetDimensions
@@ -332,22 +331,29 @@ namespace NetDimensionsWrapper.NetDimensions
         {
             StringBuilder csvSb = new StringBuilder();
             if (users.Length == 0)
+            {
                 return string.Empty;
+            }
 
             PropertyInfo[] properties = typeof(NetDimensionsUser).GetProperties();
             string[] csvHeaders = new string[properties.Length + 1];
             csvHeaders[0] = "Actions";
             string[][] csvData = new string[users.Length][];
             int actualHeaderIndex = 1;
-            foreach(PropertyInfo property in properties)
+            foreach (PropertyInfo property in properties)
             {
                 string fieldName = property.Name;
                 object[] attributes = property.GetCustomAttributes(typeof(CsvFieldAttribute), true);
                 if (attributes.Length == 0)
+                {
                     continue;
+                }
+
                 CsvFieldAttribute att = (CsvFieldAttribute)attributes[0];
                 if ((att != null) && (!string.IsNullOrWhiteSpace(att.CsvFieldHeader)))
+                {
                     fieldName = att.CsvFieldHeader;
+                }
 
                 csvHeaders[actualHeaderIndex] = fieldName;
                 for (int userRow = 0; userRow < users.Length; userRow++)
@@ -365,9 +371,16 @@ namespace NetDimensionsWrapper.NetDimensions
                         if (property.PropertyType == typeof(DateTime?))
                         {
                             if (((DateTime?)propValue).HasValue)
-                                valueString = ((DateTime?)propValue).Value.ToString("dd-MMM-yyyy").ToLower();
+                            {
+                                valueString = ((DateTime?)propValue).Value.ToString(
+                                    "dd-MMM-yyyy",
+                                    CultureInfo.CreateSpecificCulture("en-US"))
+                                    .ToLower();
+                            }
                             else
+                            {
                                 valueString = string.Empty;
+                            }
                         }
                         else if (property.PropertyType == typeof(bool))
                         {
@@ -376,38 +389,56 @@ namespace NetDimensionsWrapper.NetDimensions
                         else if (property.PropertyType == typeof(RegionInfo))
                         {
                             if ((RegionInfo)propValue != null)
+                            {
                                 valueString = ((RegionInfo)propValue).ThreeLetterISORegionName;
+                            }
                             else
+                            {
                                 valueString = string.Empty;
+                            }
                         }
                         else if (property.PropertyType == typeof(CultureInfo))
                         {
                             if (((CultureInfo)propValue) == null)
+                            {
                                 valueString = new CultureInfo("en-US").Name.Replace("-", "_");
+                            }
                             else
+                            {
                                 valueString = ((CultureInfo)propValue).Name.Replace("-", "_");
+                            }
                         }
                         else
                         {
                             if ((propValue != null) && (!string.IsNullOrWhiteSpace(propValue.ToString())))
+                            {
                                 valueString = "\"" + propValue.ToString() + "\"";
+                            }
                             else
+                            {
                                 valueString = string.Empty;
+                            }
                         }
+
                         csvData[userRow][actualHeaderIndex] = valueString;
                     }
                 }
+
                 actualHeaderIndex++;
             }
 
             csvSb.Append(string.Join(",", csvHeaders));
             csvSb.Append("\n");
             for (int u = 0; u < users.Length; u++)
-            { 
-                if(u > 0)
+            {
+                if (u > 0)
+                {
                     csvSb.Append("\n");
+                }
+
                 csvSb.Append(string.Join(",", csvData[u]));
             }
+
             return csvSb.ToString();
         }
     }
